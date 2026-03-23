@@ -1,0 +1,25 @@
+Light Mode                    Dark Mode
+─────────────────────         ─────────────────────
+White background              Dark navy background
+Green buttons                 Green buttons (same)
+Dark gray text                White text
+Light gray cards              Dark surface cards
+Green accents                 Green accents (same)
+
+
+Landing Page      ← not built yet
+Register          ✅
+Login             ✅
+Verify Email      ✅
+Forgot Password   ✅
+Reset Password    ✅
+─────────────────────────────
+Dashboard         ← NEXT (first page after login)
+Profile           
+Campaigns List    
+Campaign Detail + Vote + Live Results
+Organizations List
+Org Detail
+Org Manage (ORG_ADMIN)
+Admin Panel (SUPER_ADMIN)
+Landing Page      ← build last (references everything)
