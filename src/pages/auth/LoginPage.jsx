@@ -38,12 +38,14 @@ const LoginPage = () => {
       });
 
       const { accessToken, refreshToken, data: user } = response.data;
-      console.log("data", response.data);
+      // console.log("data", response.data);
+      console.log("res:", response);
       console.log("status", response.status);
 
       setAuth(user, accessToken, refreshToken);
       navigate("/dashboard");
     } catch (error) {
+      
       setServerError(
         error.response?.data?.message || "Login failed. Please try again.",
       );
