@@ -7,7 +7,6 @@ import { io } from "socket.io-client";
 import {
   RiArrowLeftLine,
   RiBuilding2Line,
-
   RiTimeLine,
   RiCheckboxCircleLine,
   RiLoader4Line,
@@ -234,24 +233,52 @@ const CampaignDetailPage = () => {
 
   // ── Socket.io — live results ───────────────────────────────
   // ── Socket.io — live results ───────────────────────────────
+  // useEffect(() => {
+  //   if (!id) return;
+
+  //   const socket = io(SOCKET_URL);
+  //   socket.emit("join_campaign", { campaignId: parseInt(id) });
+
+  //   socket.on("vote_update", (data) => {
+  //     setLiveResults(data);
+  //     queryClient.invalidateQueries({ queryKey: ["campaign-results", id] });
+  //   });
+
+  //   return () => {
+  //     socket.emit("leave_campaign", { campaignId: parseInt(id) });
+  //     socket.disconnect();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [id]); // ← only re-run when id changes, queryClient is stable
+
   useEffect(() => {
     if (!id) return;
 
-    const socket = io(SOCKET_URL);
-    socket.emit("join_campaign", { campaignId: parseInt(id) });
+    const socket = io(SOCKET_URL, {
+      transports: ["websocket"], // skip long-polling, connect faster
+    });
+
+    // ✅ Wait until connected BEFORE joining the room
+    socket.on("connect", () => {
+      socket.emit("join_campaign", { campaignId: parseInt(id) });
+    });
 
     socket.on("vote_update", (data) => {
       setLiveResults(data);
       queryClient.invalidateQueries({ queryKey: ["campaign-results", id] });
     });
 
+    // ✅ Also handle reconnections — rejoin room if socket drops and reconnects
+    socket.on("reconnect", () => {
+      socket.emit("join_campaign", { campaignId: parseInt(id) });
+    });
+
     return () => {
       socket.emit("leave_campaign", { campaignId: parseInt(id) });
       socket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]); // ← only re-run when id changes, queryClient is stable
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   // ── Candidate selection handler ────────────────────────────
   const handleSelect = (candidateId) => {
     setVoteError("");
