@@ -178,7 +178,15 @@ const ManageCampaigns = ({ org }) => {
   // Create campaign mutation
   const { mutate: createCampaign, isPending: creating } = useMutation({
     mutationFn: async (data) => {
-      await api.post("/api/campaigns", { ...data, organizationId: org.id });
+      // Convert local datetime to UTC ISO string
+      const toUTC = (localDateStr) => new Date(localDateStr).toISOString();
+
+      await api.post("/api/campaigns", {
+        ...data,
+        startDate: toUTC(data.startDate), // ← convert to UTC
+        endDate: toUTC(data.endDate), // ← convert to UTC
+        organizationId: org.id,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
