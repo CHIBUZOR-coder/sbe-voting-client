@@ -309,7 +309,7 @@ const DashboardPage = () => {
     queryKey: ["dashboard-orgs"],
     enabled: user?.role === "ORG_ADMIN" || user?.role === "SUPER_ADMIN",
     queryFn: async () => {
-      const res = await api.get("/api/orgs?limit=4");
+      const res = await api.get("/api/orgs/my");
       return res.data;
     },
   });

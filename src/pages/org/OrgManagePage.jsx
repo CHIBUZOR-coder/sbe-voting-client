@@ -43,7 +43,7 @@ const OrgManagePage = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["my-orgs"],
     queryFn: async () => {
-      const res = await api.get("/api/orgs?limit=20");
+      const res = await api.get("/api/orgs/my");
       return res.data.data;
     },
   });
