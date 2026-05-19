@@ -77,7 +77,10 @@ const CreateOrg = ({ onCreated }) => {
       setLogo(null);
       setPreview(null);
       setServerError("");
-      if (onCreated) onCreated();
+      // Delay closing the form so user can see the success message
+      setTimeout(() => {
+        if (onCreated) onCreated();
+      }, 2000);
     },
     onError: (error) => {
       setServerError(

@@ -176,6 +176,9 @@ const AdminPage = () => {
     onSettled: () => {
       setApprovingId(null);
       queryClient.invalidateQueries({ queryKey: ["admin-orgs"] });
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-orgs"] });
+      queryClient.invalidateQueries({ queryKey: ["my-orgs"] });
     },
   });
 
@@ -186,6 +189,9 @@ const AdminPage = () => {
     onSettled: () => {
       setRejectingId(null);
       queryClient.invalidateQueries({ queryKey: ["admin-orgs"] });
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-orgs"] });
+      queryClient.invalidateQueries({ queryKey: ["my-orgs"] });
     },
   });
 
