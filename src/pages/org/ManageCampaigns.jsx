@@ -192,6 +192,8 @@ const ManageCampaigns = ({ org }) => {
       queryClient.invalidateQueries({
         queryKey: ["org-manage-campaigns", org?.id],
       });
+      queryClient.invalidateQueries({ queryKey: ["campaigns"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-campaigns"] });
       reset();
       setShowForm(false);
       setServerError("");
